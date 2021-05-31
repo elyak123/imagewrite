@@ -1,24 +1,16 @@
+import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-import os
 
 
 def upload_to(instance, filename):
-    dir_name = 'volume-'+str(instance.pk)
-    filename = 'volume-'+str(instance.pk)+'-image_1'+filename[-4:]
-    return '%s/%s' % (dir_name, filename)
-
-
-remote_storage = FileSystemStorage(
-                    location='/Users/tiffanybillard/Documents/dev/mediatest/',
-                    base_url='/Users/tiffanybillard/Documents/dev/mediatest/'
-                                )
+    return "newsletter/volume{0}/volume{0}-image-{1}".format(
+        instance.news_letter.pk, filename
+    )
 
 
 class OverwriteStorage(FileSystemStorage):
-
-    def get_available_name(self, name, max_length=None):
+    def get_available_name(self, name, max_length=100):
         if self.exists(name):
-            os.remove(os.path.join(settings.MEDIA_REMOTE, name))
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
         return name
-

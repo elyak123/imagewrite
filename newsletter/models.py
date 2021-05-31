@@ -1,11 +1,13 @@
 from django.db import models
-from .storages import upload_to, remote_storage
+from .storages import upload_to, OverwriteStorage
 
 
 class Newsletter(models.Model):
+    pass
 
-    image_1 = models.ImageField(upload_to=upload_to)
-    image_2 = models.ImageField(upload_to=upload_to, storage=remote_storage, null=True, blank=True)
-    image_3 = models.ImageField(upload_to=upload_to, storage=remote_storage, null=True, blank=True)
-    image_4 = models.ImageField(upload_to=upload_to, storage=remote_storage, null=True, blank=True)
 
+class Image(models.Model):
+    news_letter = models.ForeignKey(Newsletter, default=None, on_delete=models.CASCADE)
+    image = models.ImageField(
+        upload_to=upload_to, verbose_name="Image", storage=OverwriteStorage()
+    )

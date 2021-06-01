@@ -16,11 +16,18 @@ def upload_to_image_1(instance, filename):
     return f"newsletter/volume{pk}/volume{pk}-image-1.{filename.split('.')[-1]}"
 
 
-Image1Storage = FileSystemStorage(location=settings.UPLOAD_ROOT, base_url="/apache")
-
-
 class OverwriteStorage(FileSystemStorage):
     def get_available_name(self, name, max_length=100):
         if self.exists(name):
             os.remove(os.path.join(settings.MEDIA_ROOT, name))
         return name
+
+
+class OverwriteStorageImage1(FileSystemStorage):
+    def get_available_name(self, name, max_length=100):
+        if self.exists(name):
+            os.remove(os.path.join(settings.UPLOAD_ROOT, name))
+        return name
+
+
+Image1Storage = OverwriteStorageImage1(location=settings.UPLOAD_ROOT, base_url="/apache")

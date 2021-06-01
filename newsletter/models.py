@@ -15,19 +15,25 @@ class Newsletter(models.Model):
         return f"newsletter/volume{pk}/volume{pk}-image-2.{filename.split('.')[-1]}"
 
     def upload_to_image_3(self, filename):
-        instance = Newsletter.objects.all().order_by("-pk").first()
-        if not instance:
-            pk = 1
+        if self.pk:
+            pk = self.pk
         else:
-            pk = instance.pk + 1
+            instance = Newsletter.objects.all().order_by("-pk").first()
+            if not instance:
+                pk = 1
+            else:
+                pk = instance.pk + 1
         return f"newsletter/volume{pk}/volume{pk}-image-3.{filename.split('.')[-1]}"
 
     def upload_to_image_4(self, filename):
-        instance = Newsletter.objects.all().order_by("-pk").first()
-        if not instance:
-            pk = 1
+        if self.pk:
+            pk = self.pk
         else:
-            pk = instance.pk + 1
+            instance = Newsletter.objects.all().order_by("-pk").first()
+            if not instance:
+                pk = 1
+            else:
+                pk = instance.pk + 1
         return f"newsletter/volume{pk}/volume{pk}-image-4.{filename.split('.')[-1]}"
 
     image_1 = models.ImageField(upload_to=upload_to_image_1, storage=Image1Storage)

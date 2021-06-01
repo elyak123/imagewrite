@@ -3,10 +3,20 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
 
-def upload_to(instance, filename):
-    return "newsletter/volume{0}/volume{0}-image-{1}".format(
-        instance.news_letter.pk, filename
-    )
+def upload_to_image_1(instance, filename):
+    from .models import Newsletter
+    if instance.pk:
+        pk = instance.pk
+    else:
+        my_instance = Newsletter.objects.all().order_by("-pk").first()
+        if not my_instance:
+            pk = 1
+        else:
+            pk = my_instance.pk + 1
+    return f"newsletter/volume{pk}/volume{pk}-image-1.{filename.split('.')[-1]}"
+
+
+Image1Storage = FileSystemStorage(location=settings.UPLOAD_ROOT, base_url="/apache")
 
 
 class OverwriteStorage(FileSystemStorage):

@@ -125,6 +125,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+UPLOAD_ROOT = os.getenv("HOME")
 MEDIA_URL = '/media/'
 MEDIA_REMOTE = '/Users/tiffanybillard/Documents/dev/mediatest/'
 
